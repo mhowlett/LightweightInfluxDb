@@ -1,8 +1,8 @@
-## LightweightInfluxDb for .NET
+## LightweightInfluxDb
 
-This is a (very) lightweight library that can be used to read and write to InfluxDb from .NET.
+This is a .NET library for reading data from and writing data to InfluxDb. As the name suggests, it's very lightweight.
 
-It exists because the alternatives at this seem overly complicated for my simple needs and I don't trust them.
+It exists because the alternatives at this point seemed overly complicated for my simple needs.
 
 Available on nuget.
 
