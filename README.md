@@ -20,7 +20,6 @@ Query Examples:
 	
 	
 Write Example:
-(note: you could use SeriesPoint rather than a custom implementation of ISeriesPoint, but I think a specialized implementation would often be convenient).
 
 	public class MySimpleSeriesPoint : ISeriesPoint
     {
@@ -47,3 +46,6 @@ Write Example:
 	
 	idb.Write(new MySimpleSeriesPoint("MyMeasurement", "MyCategory", myValue));
 	
+Note: you could use SeriesPoint rather than a custom implementation of ISeriesPoint, but I think a specialized implementation would often be convenient.
+
+Note: you can also pass a list of ISeriesPoint objects to Write which will generate a multi-line request.
