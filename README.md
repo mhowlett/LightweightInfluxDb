@@ -20,6 +20,7 @@ Query Examples:
 	
 	
 Write Example:
+(note: you could use SeriesPoint rather than a custom implementation of ISeriesPoint, but I think a specialized implementation would often be convenient).
 
 	public class MySimpleSeriesPoint : ISeriesPoint
     {
