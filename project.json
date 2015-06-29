@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0-*",
+    
+    "description": "A lightweight library for reading and writing data to InfluxDb",
+    
+    "dependencies": {
+        "Newtonsoft.Json": "5.0.8"
+	},
+    
+    "frameworks": {
+        "dnx451": { }
+    }
+}
