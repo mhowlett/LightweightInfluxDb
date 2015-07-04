@@ -4,7 +4,7 @@
   "authors": [ "https://www.matthowlett.com" ],
   "tags": [ "InfluxDb" ],
   "projectUrl": "https://github.com/mhowlett/LightweightInfluxDb",
-  "licenseUrl": "",
+  "licenseUrl": "https://github.com/mhowlett/LightweightInfluxDb",
 
   "dependencies": {
     "Newtonsoft.Json": "5.0.8"
