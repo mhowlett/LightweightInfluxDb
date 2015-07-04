@@ -1,3 +1,6 @@
 project.lock.json
 *~
 bin
+obj
+.vs
+*.user

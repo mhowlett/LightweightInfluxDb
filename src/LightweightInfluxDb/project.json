@@ -1,0 +1,26 @@
+{
+  "version": "1.2.0",
+  "description": "A lightweight library for reading and writing data to InfluxDb.",
+  "authors": [ "https://www.matthowlett.com" ],
+  "tags": [ "InfluxDb" ],
+  "projectUrl": "https://github.com/mhowlett/LightweightInfluxDb",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Newtonsoft.Json": "5.0.8"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Net.Http": "4.0.0.0"
+      }
+    },
+    "dnxcore50": {
+      "dependencies": {
+        "System.IO": "4.0.10-beta-*",
+        "System.Net.Http": "4.0.0-beta-*"
+      }
+    }
+  }
+}
