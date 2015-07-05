@@ -10,18 +10,18 @@ Query Examples:
 
 	var idb = new InfluxDb(url, db, username, password);
 	
-	var measurements = idb.QuerySingleSeries("show measurements").Select(a => (string)a[0]).ToList();
+	var measurements = await idb.QuerySingleSeriesAsync("show measurements").Select(a => (string)a[0]).ToList();
 	
 	var q = "select mean(v) from " + seriesName + " where time > "
             	            + (startDate - prePeriod) + "ms and time < " + endDate 
                 	        + "ms group by time(" + step + "ms) fill(previous)";
                         
-    var values = idb.QuerySingleSeries(q).Select(a => a[1] == null ? null : (double?)Convert.ToDouble(a[1])).ToList();
+    var values = await idb.QuerySingleSeriesAsync(q).Select(a => a[1] == null ? null : (double?)Convert.ToDouble(a[1])).ToList();
 	
 	
 Write Example:
 
-	public class MySimpleSeriesPoint : ISeriesPoint
+    public class MySimpleSeriesPoint : ISeriesPoint
     {
         public MySimpleSeriesPoint(string name, string category, object value)
         {
@@ -44,8 +44,8 @@ Write Example:
 	...
 	
 	
-	idb.Write(new MySimpleSeriesPoint("MyMeasurement", "MyCategory", myValue));
+	await idb.WriteAsync(new MySimpleSeriesPoint("MyMeasurement", "MyCategory", myValue));
 	
-Note: you could use SeriesPoint rather than a custom implementation of ISeriesPoint, but I think a specialized implementation would often be convenient.
+Note: you could use SeriesPoint rather than a custom implementation of ISeriesPoint, but I think in many instances a specialized implementation is more convenient.
 
-Note: you can also pass a list of ISeriesPoint objects to Write which will generate a multi-line request.
+Note: you can also pass a list of ISeriesPoint objects to WriteAsync which will generate a multi-line request.
