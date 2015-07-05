@@ -56,22 +56,22 @@ namespace LightweightInfluxDb
             return result;
         }
 
-        public Task Write(List<ISeriesPoint> data)
+        public async Task WriteAsync(List<ISeriesPoint> data)
         {
             string s = "";
             foreach (var d in data)
             {
                 s += SerializeWriteData(d) + "\n";
             }
-            return Write(s);
+            await WriteAsync(s);
         }
-
-        public Task Write(ISeriesPoint data)
+        
+        public async Task WriteAsync(ISeriesPoint data)
         {
-            return Write(SerializeWriteData(data));
+            await WriteAsync(SerializeWriteData(data));
         }
 
-        private async Task Write(string data)
+        private async Task WriteAsync(string data)
         {
             using (var client = new HttpClient())
             {
@@ -92,7 +92,7 @@ namespace LightweightInfluxDb
             public List<List<object>> Values;
         }
 
-        public async Task<List<List<object>>> QuerySingleSeries(string query)
+        public async Task<List<List<object>>> QuerySingleSeriesAsync(string query)
         {
             var queryString = Uri.EscapeDataString(query);
             using (var client = new HttpClient())
@@ -104,7 +104,7 @@ namespace LightweightInfluxDb
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception("unable to write series point data.");
+                    throw new Exception("unable to read series point data.");
                 }
                 using (var stream = await response.Content.ReadAsStreamAsync())
                 using (var sr = new StreamReader(stream))

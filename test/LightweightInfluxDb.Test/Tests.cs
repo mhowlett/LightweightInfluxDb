@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using LightweightInfluxDb;
 
 namespace LightweightInfluxDb.Test
 {
@@ -21,11 +20,10 @@ namespace LightweightInfluxDb.Test
                 "secret",
                 "secret");
 
-            var tsk = idb.QuerySingleSeries("show measurements");
+            var tsk = idb.QuerySingleSeriesAsync("show measurements");
             tsk.Wait();
             var r = tsk.Result;
             Assert.True(tsk.Result.Count > 0);
-
         }
     }
 }
