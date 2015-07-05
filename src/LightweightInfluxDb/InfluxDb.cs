@@ -18,7 +18,10 @@ namespace LightweightInfluxDb
             _url = url;
             if (!_url.EndsWith("/")) { _url = _url + "/"; }
             _credentials = "?db=" + db + "&u=" + user + "&p=" + password;
+            Timeout = TimeSpan.FromSeconds(15);
         }
+
+        public TimeSpan Timeout { get; set; }
 
         private static string SerializeWriteData(ISeriesPoint data)
         {
@@ -75,6 +78,7 @@ namespace LightweightInfluxDb
         {
             using (var client = new HttpClient())
             {
+                client.Timeout = Timeout;
                 client.BaseAddress = new Uri(_url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 HttpResponseMessage response = await client.PostAsync("write" + _credentials, new StringContent(data));
@@ -97,6 +101,7 @@ namespace LightweightInfluxDb
             var queryString = Uri.EscapeDataString(query);
             using (var client = new HttpClient())
             {
+                client.Timeout = Timeout;
                 client.BaseAddress = new Uri(_url);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
