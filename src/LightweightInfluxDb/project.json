@@ -1,5 +1,5 @@
 {
-  "version": "1.4.0-*",
+  "version": "1.5.0-*",
   "description": "A lightweight library for reading and writing data to InfluxDb.",
   "authors": [ "https://www.matthowlett.com" ],
   "tags": [ "InfluxDb" ],
