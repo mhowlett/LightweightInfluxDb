@@ -47,7 +47,15 @@ namespace LightweightInfluxDb
                 {
                     continue;
                 }
-                else if (value is double || value is decimal || value is float || value is Int16 || value is Int32 || value is Int64 || value is UInt16 || value is UInt32 || value is UInt64)
+                else if (value is double)
+                {
+                    strRep = ((double)value).ToString(".0##############");
+                }
+                else if (value is float)
+                {
+                    strRep = ((float)value).ToString(".0######");
+                }
+                else if (value is decimal || value is Int16 || value is Int32 || value is Int64 || value is UInt16 || value is UInt32 || value is UInt64)
                 {
                     strRep = string.Format("{0}", value);
                 }
