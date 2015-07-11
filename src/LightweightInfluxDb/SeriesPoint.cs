@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace LightweightInfluxDb
@@ -14,6 +15,8 @@ namespace LightweightInfluxDb
 	
 	    public List<string> Fields { get; set; }
 	
-    	public List<object> Values { get; set; }	
+    	public List<object> Values { get; set; }
+
+        public DateTime? Timestamp { get; set; }
     }
 }

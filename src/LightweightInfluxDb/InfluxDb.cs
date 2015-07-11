@@ -29,8 +29,8 @@ namespace LightweightInfluxDb
             {
                 throw new Exception("Invalid field series point - number of fields does not match number of values.");
             }
-            var result = data.Name;
-            if (data.Tags.Count > 0)
+            var result = data.Name.Replace(",", "\\,").Replace(" ", "\\ ");
+            if (data.Tags != null && data.Tags.Count > 0)
             {
                 foreach (var kvp in data.Tags)
                 {
@@ -38,25 +38,49 @@ namespace LightweightInfluxDb
                 }
             }
             result += " ";
+            var separatorNeeded = false;
             for (int i = 0; i < data.Fields.Count; ++i)
             {
-                if (i != 0) { result += ","; }
                 string strRep;
-                if (data.Values[i].GetType() == typeof(double))
+                var value = data.Values[i];
+                if (value == null)
                 {
-                    strRep = ((double)data.Values[i]).ToString(".0##############");
+                    continue;
                 }
-                else if (data.Values[i].GetType() == typeof(float))
+                else if (value is double || value is decimal || value is float || value is Int16 || value is Int32 || value is Int64 || value is UInt16 || value is UInt32 || value is UInt64)
                 {
-                    strRep = ((float)data.Values[i]).ToString(".0######");
+                    strRep = string.Format("{0}", value);
+                }
+                else if (value is bool)
+                {
+                    strRep = ((bool)value) ? "t" : "f";
                 }
                 else
                 {
-                    strRep = "" + data.Values[i];
+                    strRep = string.Format("\"{0}\"", string.Format("{0}", value).Replace("\"", "\\\""));
                 }
+
+                if (separatorNeeded)
+                {
+                    result += ",";
+                }
+                else
+                {
+                    separatorNeeded = true;
+                }
+
                 result += data.Fields[i] + "=" + strRep;
             }
+            if (data.Timestamp.HasValue)
+            {
+                result += string.Format(" {0}", ToUnixTimeNanoseconds(data.Timestamp.Value));
+            }
             return result;
+        }
+
+        public static long ToUnixTimeNanoseconds(DateTime date)
+        {
+            return (date.ToUniversalTime().Ticks - 621355968000000000) * 100;
         }
 
         public async Task WriteAsync(List<ISeriesPoint> data)
@@ -84,7 +108,9 @@ namespace LightweightInfluxDb
                 HttpResponseMessage response = await client.PostAsync("write" + _credentials, new StringContent(data));
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception("unable to write series point data.");
+                    throw new Exception(
+                        string.Format("Unable to write series point data. status: {0}, reason: {1}, result: {2}",
+                            response.StatusCode, response.ReasonPhrase, await response.Content.ReadAsStringAsync()));
                 }
             }
         }
